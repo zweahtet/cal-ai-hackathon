@@ -28,3 +28,15 @@ HUME_API=texVIA2o5o60QaXUxvXGnrv3DHKKOoiQr7d5EHE3SYBAKGVg
 ```bash
 streamlit run app.py
 ```
+
+**Run the application**
+```
+export GROQ_API_KEY=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
+```
+
+**Run the application**
+```
+python3 groqTest.py
+```
+
+
