@@ -13,14 +13,16 @@ from crewai_tools import (
 )
 
 # locals
-from llms import llama_3_70b_llm_groq, llama_3_8b_llm_groq, mixtral_8x7b_llm_groq
+from llms import (
+    llama_3_70b_llm_groq,
+    llama_3_8b_llm_groq,
+    mixtral_8x7b_llm_groq,
+    gpt4_turbo_llm_openai,
+)
 
 # Tools
 search_tool = SerperDevTool()
-browser_tool = BrowserbaseLoadTool()
 scraping_tool = SeleniumScrapingTool()
-exa_search_tool = EXASearchTool()
-
 
 class HumeAISentimentTool(BaseTool):
     name: str = "Hume AI Sentiment Analysis Tool"
@@ -34,11 +36,11 @@ class HumeAISentimentTool(BaseTool):
         async with client.connect([config]) as socket:
             result = await socket.send_text(text)
             emotions = result["language"]["predictions"][0]["emotions"]
-
-        return emotions
+            return emotions
 
     async def _run(self, text: str):
         return await self._do_sentiment_analysis(text)
+
 
 # Agents
 class SentimentAnalysisAgents:
@@ -47,31 +49,32 @@ class SentimentAnalysisAgents:
     def research_analyst(self):
         return Agent(
             role="Staff Research Analyst",
-            goal="Gather, analyze, and interpret data to provide insights on the sentiment of the public towards a specific.",
-            backstory="You are a research analyst with a background in data analysis and sentiment analysis. You have been tasked with gathering data from various sources and analyzing it to provide insights on the sentiment of the public towards a specific {topic}.",
+            goal="Being the BEST at gathering, analyzing, and summarizing news articles, social media posts, company announcements, and market sentiments.",
+            backstory="Known as the BEST Research Analyst, you are skilled in sifting through news, social media posts, company announcements, and market sentiments. Now, you are working on super important customer project to analyze the sentiment of the public towards a specific company.",
             verbose=self.verbose,
-            llm=llama_3_70b_llm_groq,
-            tools=[search_tool, browser_tool, scraping_tool],
+            llm=gpt4_turbo_llm_openai,
+            tools=[search_tool, scraping_tool],
         )
-    
+
     def sentiment_analyst(self):
         return Agent(
-            role="Sentiment Analyst",
-            goal="Analyze the sentiment of the public towards a specific topic based on the data provided by the research analyst.",
-            backstory="You are a sentiment analyst with experience in analyzing sentiment data. You have been tasked with analyzing the sentiment of the public towards a specific {topic} based on the data provided by the research analyst.",
+            role="Sentiment Analysis Specialist",
+            goal="Analyze the sentiment of the public towards a specific company based on the data provided by the research analyst.",
+            backstory="""Excel in interpreting nuanced emotions and opinions expressed in text.""",
             verbose=self.verbose,
-            llm=llama_3_8b_llm_groq,
+            llm=llama_3_70b_llm_groq,
             tools=[HumeAISentimentTool()],
         )
 
     def report_writer(self):
         return Agent(
             role="Senior Report Writer",
-            goal="Write a detailed report in markdown based on the insights provided by the research analyst.",
-            backstory="You are a senior report writer with experience in writing detailed reports based on data analysis. You have been tasked with writing a report in markdown based on the insights provided by the research analyst.",
+            goal="Write a detailed report in markdown based on the insights provided by the research analyst and sentiment analysis specialist on the sentiment of the public towards a specific company.",
+            backstory="Known for your exceptional writing skills and ability to present complex information in a clear and concise manner.",
             verbose=self.verbose,
             llm=mixtral_8x7b_llm_groq,
-            response_template="""Format the final report in markdown with the following sections:
+            response_template="""{{ .Response }}
+            Format the final report in markdown with the following sections:
             [OUTPUT_FORMAT]
             # Sentiment Analysis Report
             ## Introduction

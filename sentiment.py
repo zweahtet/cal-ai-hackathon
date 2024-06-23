@@ -14,6 +14,8 @@ async def calculate_rating(post: str):
     async with client.connect([config]) as socket:
         result = await socket.send_text(post)
         emotions = result["language"]["predictions"][0]["emotions"]
+        print("### Emotions ###")
+        print(emotions)
         rating = 0
         for expression in emotions:
             key = expression["name"]

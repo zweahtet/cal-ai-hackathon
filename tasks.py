@@ -1,47 +1,55 @@
 from crewai import Task
 from textwrap import dedent
 
+
 class SentimentAnalysisTasks:
+
+    def __tip_section(self):
+        return "If you do your BEST WORK, you will be rewarded with a bonus of $1000."
 
     def research(self, agent, company, date_range):
         return Task(
-            description=dedent(f"""
-                Collect and summarize recent news articles or social media posts spanning the last week related to .
-                Analyze the sentiment of the public towards the {topic} from each source using the Hume AI Sentiment Analysis Tool.
-
-                Make sure to use the most relevant and up-to-data as possible.
+            description=dedent(
+                f"""
+                Collect and summarize news articles, social media posts, company announcements, and market analysis reports related to the sentiment of the public towards the company.
+                {self.__tip_section()}
+                Make sure to use the most relevant and up-to-date data as possible.
                 Selected company by the customer: {company}
                 Date range: {date_range}
-            """),
+            """
+            ),
             agent=agent,
-            expected_output="A comprehensive analysis of the sentiment of the public towards the {topic} based on the data gathered.",
+            expected_output="A detailed summary of the news articles, social media posts, company announcements, and market analysis reports related to the sentiment of the public towards the company.",
         )
-    
+
     def sentiment_analysis(self, agent, company, date_range):
         return Task(
-            description=dedent(f"""
-                Analyze the sentiment of the public towards the {topic} based on the data provided by the research analyst.
-                Use the Hume AI Sentiment Analysis Tool to analyze the sentiment of the public towards the {topic}.
-
+            description=dedent(
+                f"""
+                Conduct sentiment analysis on the collected data to determine the overall sentiment of the public towards the company.
+                {self.__tip_section()}
                 Selected company by the customer: {company}
                 Date range: {date_range}
-            """),
+            """
+            ),
             agent=agent,
-            expected_output="A detailed report on the sentiment of the public towards the {topic} based on the analysis conducted.",
+            expected_output="A detailed sentiment analysis report on the public sentiment towards the company spanning the specified date range.",
         )
-    
+
     def write_report(self, agent, company, date_range):
         return Task(
-            description=dedent(f"""
-                Write a detailed report in markdown based on the insights provided by the research analyst.
-                The report should include a summary of the sentiment analysis conducted and the key findings.
-
+            description=dedent(
+                f"""
+                Write a detailed report in markdown format encompassing the insights provided by the Research Analyst 
+                and Sentiment Analysis Specialist on the sentiment of the public towards the company.
+                Your final report should include a summary of the data collected, sentiment analysis results, and key findings.
+                Also, include the time series analysis of the sentiment over the specified date range.
+                
+                {self.__tip_section()}
                 Selected company by the customer: {company}
                 Date range: {date_range}
-            """),
+            """
+            ),
             agent=agent,
-            expected_output="A well-structured report in markdown format summarizing the sentiment of the public towards the {topic}.",
+            expected_output="A well-structured report in markdown format detailing the sentiment of the public towards the company.",
         )
-    
-    def __tip_section(self):
-        return "If you do your BEST WORK, you will be rewarded with a bonus of $1000."

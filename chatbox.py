@@ -12,7 +12,7 @@ def show_previous_messages(messages_container: any):
 
 
 def show_chat_input(
-    disabled: bool, model: any, messages_container: any
+    disabled: bool,  messages_container: any
 ):
     if disabled:
         st.info("Make sure to select a model and file to start chatting!")

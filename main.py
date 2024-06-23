@@ -17,7 +17,6 @@ messages_container = st.container(height=300)
 show_previous_messages(messages_container=messages_container)
 show_chat_input(
     disabled=False,
-    model=None,
     messages_container=messages_container,
 )
 
