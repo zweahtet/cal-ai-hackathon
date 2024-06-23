@@ -48,8 +48,8 @@ class SentimentAnalysisAgents:
     def research_analyst(self):
         agent = Agent(
             role="Staff Research Analyst",
-            goal="Being the BEST at gathering, analyzing, and summarizing news articles, social media posts, company announcements, and market sentiments.",
-            backstory="Known as the BEST Research Analyst, you are skilled in sifting through news, social media posts, company announcements, and market sentiments. Now, you are working on super important customer project to analyze the sentiment of the public towards a specific company.",
+            goal="Being the BEST at gathering, analyzing, and summarizing news articles and social media posts, only related to ESG.",
+            backstory="Known as the BEST Research Analyst, you are skilled in sifting through news and social media posts. Now, you are working on super important customer project to analyze the ESG towards a specific company.",
             verbose=self.verbose,
             llm=gpt4_turbo_llm_openai,
             tools=[scraping_tool, search_tool],
@@ -58,9 +58,9 @@ class SentimentAnalysisAgents:
 
     def sentiment_analyst(self):
         agent = Agent(
-            role="Sentiment Analysis Specialist",
-            goal="Analyze the sentiment of the public towards a specific company based on the data provided by the research analyst.",
-            backstory="Excel in interpreting nuanced emotions and opinions expressed in text.",
+            role="ESG Analysis Specialist",
+            goal="Analyze the ESG towards a specific company based on the data provided by the research analyst.",
+            backstory="Experienced in analyzing ESG data, you are known for your expertise in identifying key trends and insights.",
             verbose=self.verbose,
             llm=llama_3_70b_llm_groq,
             # tools=[HumeAISentimentTool()],
@@ -74,7 +74,8 @@ class SentimentAnalysisAgents:
             backstory="Known for your exceptional writing skills and ability to present complex information in a clear and concise manner.",
             verbose=self.verbose,
             # llm=mixtral_8x7b_llm_groq,
-            llm=llama_3_70b_llm_groq,
+            # llm=llama_3_70b_llm_groq,
+            llm=gpt4_turbo_llm_openai,
             response_template="""{{ .Response }}
             Format the final report in markdown with the following sections:
             [OUTPUT_FORMAT]
@@ -91,5 +92,6 @@ class SentimentAnalysisAgents:
             - Include references to the data sources used in the analysis.
             [END_OUTPUT_FORMAT]
             """,
+            allow_delegation=False,
         )
         return agent

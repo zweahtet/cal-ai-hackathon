@@ -11,7 +11,7 @@ class SentimentAnalysisTasks:
         task = Task(
             description=dedent(
                 f"""
-                Collect and summarize news articles, social media posts, company announcements, and market analysis reports related to the sentiment of the public towards the company.
+                Collect and summarize news articles and social media posts related to the sentiment of the public towards the company.
                 {self.__tip_section()}
                 Make sure to use the most relevant and up-to-date data as possible.
                 Selected company by the customer: {company}
