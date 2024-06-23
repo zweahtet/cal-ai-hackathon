@@ -21,7 +21,9 @@ pip install -r requirements.txt
 
 **Add the following environment variables to the .env file**
 ```bash
-HUME_API=texVIA2o5o60QaXUxvXGnrv3DHKKOoiQr7d5EHE3SYBAKGVg
+HUME_API=<your_hume_api_key>
+GROQ_API=<your_groq_api_key>
+SERP_API=<your_serp_api_key>
 ```
 
 **Run the application**
