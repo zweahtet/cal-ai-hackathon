@@ -21,22 +21,24 @@ pip install -r requirements.txt
 
 **Add the following environment variables to the .env file**
 ```bash
-HUME_API=texVIA2o5o60QaXUxvXGnrv3DHKKOoiQr7d5EHE3SYBAKGVg
+HUME_API=<your_hume_api_key>
+GROQ_API=<your_groq_api_key>
+SERP_API=<your_serp_api_key>
 ```
 
 **Run the application**
 ```bash
-streamlit run app.py
+streamlit run main.py
 ```
 
-**Run the application**
-```
-export GROQ_API_KEY=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
-```
-
-**Run the application**
-```
-python3 groqTest.py
-```
-
+# References
+- [Stock Analysis AI Crew](https://replit.com/@zhtet5/Stock-Analysis-AI-Crew-not-formal-stock-recommendation#stock_analysis_agents.py)
+- [Trip Planning AI Crew](https://replit.com/@crewAI/Trip-Planning-AI-Crew?v=1&ref=blog.langchain.dev#trip_tasks.py)
+- [CrewAI Docs](https://docs.crewai.com/core-concepts/Crews/#example-assembling-a-crew)
+- [Groq Cloud Docs](https://console.groq.com/docs/models)
+- [Hume Docs](https://dev.hume.ai/intro)
+- [Berkeley Resources](https://docs.google.com/document/u/1/d/e/2PACX-1vTcAXQBGboZd3FJuv_edDGGTWTyIohQSR927Wjca3s3l6ZIjdmRa7UPYoTfcZxkQURCy3vGfQhVnef4/pub)
+- [Miro Board](https://miro.com/app/board/uXjVK5Mght4=/)
+- [Langchain + Groq Docs](https://python.langchain.com/v0.2/docs/integrations/chat/groq/)
+- [Langchain Blog CrewAI Real Use Cases](https://blog.langchain.dev/crewai-unleashed-future-of-ai-agent-teams/)
 

@@ -2,3 +2,9 @@ groq
 hume
 streamlit
 python-dotenv
+langchain
+langchain-core
+langchain-groq
+crewai
+crewai[tools]
+browserbase
