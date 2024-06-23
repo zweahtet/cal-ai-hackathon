@@ -1,1 +1,4 @@
 groq
+hume
+streamlit
+python-dotenv
