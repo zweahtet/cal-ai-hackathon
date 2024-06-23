@@ -1,5 +1,5 @@
 from crewai import Crew
-
+import streamlit as st
 from agents import SentimentAnalysisAgents
 from tasks import SentimentAnalysisTasks
 
@@ -18,22 +18,26 @@ class SentimentCrew:
         tasks = SentimentAnalysisTasks()
 
         # Create agents
-        research_analyst_agent = agents.research_analyst()
-        sentiment_analyst_agent = agents.sentiment_analyst()
-        report_writer_agent = agents.report_writer()
+        with st.spinner("Creating Agents..."):
+            research_analyst_agent = agents.research_analyst()
+            sentiment_analyst_agent = agents.sentiment_analyst()
+            report_writer_agent = agents.report_writer()
+        st.status("Agents Created.", state="complete")
 
         # Create tasks
-        research_task = tasks.research(
-            research_analyst_agent, self.company, self.date_range
-        )
+        with st.spinner("Creating Tasks..."):
+            research_task = tasks.research(
+                research_analyst_agent, self.company, self.date_range
+            )
 
-        sentiment_task = tasks.sentiment_analysis(
-            sentiment_analyst_agent, self.company, self.date_range
-        )
+            sentiment_task = tasks.sentiment_analysis(
+                sentiment_analyst_agent, self.company, self.date_range
+            )
 
-        report_task = tasks.write_report(
-            report_writer_agent, self.company, self.date_range
-        )
+            report_task = tasks.write_report(
+                report_writer_agent, self.company, self.date_range
+            )
+        st.status("Tasks Created.", state="complete")
 
         crew = Crew(
             agents=[
@@ -48,12 +52,9 @@ class SentimentCrew:
             max_rpm=100,
         )
 
-        result = crew.kickoff()
+        with st.spinner("Running Sentiment Analysis Crew..."):
+            result = crew.kickoff()
+
+        st.info("Sentiment Analysis Crew has completed the tasks.")
         return result
 
-
-if __name__ == "__main__":
-    sentiment_crew = SentimentCrew("Apple", "01-01-2022 to 03-01-2022")
-    result = sentiment_crew.run()
-    print("### Result ###")
-    print(result)

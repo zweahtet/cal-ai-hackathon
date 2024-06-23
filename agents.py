@@ -1,6 +1,4 @@
 import os
-
-from langchain_core.messages import SystemMessage
 from hume import HumeStreamClient
 from hume.models.config import LanguageConfig
 from crewai import Agent
@@ -23,6 +21,7 @@ from llms import (
 # Tools
 search_tool = SerperDevTool()
 scraping_tool = SeleniumScrapingTool()
+
 
 class HumeAISentimentTool(BaseTool):
     name: str = "Hume AI Sentiment Analysis Tool"
@@ -47,32 +46,35 @@ class SentimentAnalysisAgents:
     verbose: bool = True
 
     def research_analyst(self):
-        return Agent(
+        agent = Agent(
             role="Staff Research Analyst",
             goal="Being the BEST at gathering, analyzing, and summarizing news articles, social media posts, company announcements, and market sentiments.",
             backstory="Known as the BEST Research Analyst, you are skilled in sifting through news, social media posts, company announcements, and market sentiments. Now, you are working on super important customer project to analyze the sentiment of the public towards a specific company.",
             verbose=self.verbose,
             llm=gpt4_turbo_llm_openai,
-            tools=[search_tool, scraping_tool],
+            tools=[scraping_tool, search_tool],
         )
+        return agent
 
     def sentiment_analyst(self):
-        return Agent(
+        agent = Agent(
             role="Sentiment Analysis Specialist",
             goal="Analyze the sentiment of the public towards a specific company based on the data provided by the research analyst.",
-            backstory="""Excel in interpreting nuanced emotions and opinions expressed in text.""",
+            backstory="Excel in interpreting nuanced emotions and opinions expressed in text.",
             verbose=self.verbose,
             llm=llama_3_70b_llm_groq,
-            tools=[HumeAISentimentTool()],
+            # tools=[HumeAISentimentTool()],
         )
+        return agent
 
     def report_writer(self):
-        return Agent(
+        agent = Agent(
             role="Senior Report Writer",
             goal="Write a detailed report in markdown based on the insights provided by the research analyst and sentiment analysis specialist on the sentiment of the public towards a specific company.",
             backstory="Known for your exceptional writing skills and ability to present complex information in a clear and concise manner.",
             verbose=self.verbose,
-            llm=mixtral_8x7b_llm_groq,
+            # llm=mixtral_8x7b_llm_groq,
+            llm=llama_3_70b_llm_groq,
             response_template="""{{ .Response }}
             Format the final report in markdown with the following sections:
             [OUTPUT_FORMAT]
@@ -90,3 +92,4 @@ class SentimentAnalysisAgents:
             [END_OUTPUT_FORMAT]
             """,
         )
+        return agent

@@ -28,7 +28,7 @@ SERP_API=<your_serp_api_key>
 
 **Run the application**
 ```bash
-streamlit run app.py
+streamlit run main.py
 ```
 
 # References
